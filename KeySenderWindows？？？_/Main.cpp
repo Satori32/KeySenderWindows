@@ -16,9 +16,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	W.SetEventHandler(WE);
 
 	const TCHAR Name[] = _T("KeySenderYaki");
-	const TCHAR Title[] = _T("KeysenderYaki");
+	const TCHAR Title[] = _T("KeySenderYaki");
 
-	W.Create(hInstance, Name, Title, 320, 216);
+	W.Create(hInstance, Name, Title, 320, 232);
 
 	W.SubStyle(WS_MAXIMIZEBOX);
 	W.SubStyle(WS_THICKFRAME);

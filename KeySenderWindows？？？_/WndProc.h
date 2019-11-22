@@ -35,7 +35,8 @@ class KeySenderDProc :public Window::EventHandler {
 				KillTimer(hWnd, TimerID);
 				TimerID = SetTimer(hWnd, TimerID, TimeLimit, nullptr);
 			}
-			//InvalidateRect(hWnd, &crt, TRUE);
+			UpdateWindow(hWnd);
+			InvalidateRect(hWnd, &crt, TRUE);
 			break;
 
 		case WM_TIMER: {
@@ -56,6 +57,14 @@ class KeySenderDProc :public Window::EventHandler {
 		}
 		case WM_KEYDOWN: {
 			LRESULT r(0);
+			if (wp == VK_UP) {
+				TimeLimit += 100;
+			}
+			if (wp == VK_DOWN) {
+				TimeLimit -= 100;
+			}
+			TimeLimit -= TimeLimit % 100;
+			if (TimeLimit == 0) { TimeLimit = 16 * 3; }
 			if (Target != nullptr) {
 				if (wp == VK_ESCAPE) {
 					Target = nullptr;
@@ -116,6 +125,15 @@ class KeySenderDProc :public Window::EventHandler {
 			{
 				std::stringstream ss;
 				ss << Target;
+
+				DrawTextA(hDC, ss.str().data(), ss.str().size(), &rt, DT_CALCRECT);	
+				rt.top += 16;
+				rt.bottom += 16;
+				DrawTextA(hDC, ss.str().data(), ss.str().size(), &rt, DT_NOCLIP);
+			}
+			{
+				std::stringstream ss;
+				ss << TimeLimit<<"msec.";
 
 				DrawTextA(hDC, ss.str().data(), ss.str().size(), &rt, DT_CALCRECT);	
 				rt.top += 16;
